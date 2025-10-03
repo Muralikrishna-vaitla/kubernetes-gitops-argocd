@@ -1,4 +1,4 @@
-name: Python Flask App Build and Deploy to EC2 Instance
+name: Web Application Deployment to EKS Cluster
 
 on:
   push:
@@ -12,19 +12,8 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Set up Python 3.10
-      uses: actions/setup-python@v3
-      with:
-        python-version: "3.10"
-
-    - name: Install Python Modules
-      run: pip install -r requirements.txt
-
-    - name: Run Unit Test Cases
-      run: python tests.py
-
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag testing/my-flask-app:latest
+      run: docker build . --file Dockerfile --tag testing/webapp:1.0
 
     - name: "Configure AWS Credentials" 
       uses: aws-actions/configure-aws-credentials@v4
@@ -38,6 +27,6 @@ jobs:
 
     - name: Push the Docker Image to ECR
       run: |
-        aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 864981728406.dkr.ecr.ap-south-1.amazonaws.com
-        docker tag testing/my-flask-app:latest 864981728406.dkr.ecr.ap-south-1.amazonaws.com/testing/my-flask-app:latest
-        docker push 864981728406.dkr.ecr.ap-south-1.amazonaws.com/testing/my-flask-app:latest
+        aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 489857930706.dkr.ecr.us-east-1.amazonaws.com
+        docker tag testing/webapp:1.0 489857930706.dkr.ecr.us-east-1.amazonaws.com/testing/webapp
+        docker push 489857930706.dkr.ecr.us-east-1.amazonaws.com/testing/webapp:1.0
