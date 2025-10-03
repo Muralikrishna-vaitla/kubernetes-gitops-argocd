@@ -13,7 +13,7 @@ jobs:
     - uses: actions/checkout@v4
 
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag testing/webapp:1.0
+      run: docker build . --file Dockerfile --tag flask-webapp/webapp:1.0
 
     - name: "Configure AWS Credentials" 
       uses: aws-actions/configure-aws-credentials@v4
@@ -28,5 +28,5 @@ jobs:
     - name: Push the Docker Image to ECR
       run: |
         aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 489857930706.dkr.ecr.us-east-1.amazonaws.com
-        docker tag testing/webapp:1.0 489857930706.dkr.ecr.us-east-1.amazonaws.com/testing/webapp
-        docker push 489857930706.dkr.ecr.us-east-1.amazonaws.com/testing/webapp:1.0
+        docker tag flask-webapp/webapp:1.0 489857930706.dkr.ecr.us-east-1.amazonaws.com/flask-webapp/webapp
+        docker push 489857930706.dkr.ecr.us-east-1.amazonaws.com/flask-webapp/webapp:1.0
